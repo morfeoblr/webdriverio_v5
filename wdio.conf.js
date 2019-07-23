@@ -28,7 +28,7 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
   specs: [
-    './test/features/**/*.feature'
+    './test/features/**/*.feature',
   ],
   // Patterns to exclude.
   exclude: [
@@ -132,23 +132,28 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter.html
-  reporters: ['spec', 'allure'],
+  reporters: ['spec', ['allure', {
+    outputDir: 'allure-results',
+    disableWebdriverStepsReporting: false,
+    disableWebdriverScreenshotsReporting: false,
+    useCucumberStepReporter: true,
+  }]],
   //
   // If you are using Cucumber you need to specify the location of your step definitions.
   cucumberOpts: {
-    require: ['./test/steps/**/*.js'],        // <string[]> (file/dir) require files before executing features
-    backtrace: false,   // <boolean> show full backtrace for errors
-    requireModule: [],  // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-    dryRun: false,      // <boolean> invoke formatters without executing steps
-    failFast: false,    // <boolean> abort the run on first failure
+    require: ['./test/steps/**/*.js'], // <string[]> (file/dir) require files before executing features
+    backtrace: false, // <boolean> show full backtrace for errors
+    requireModule: [], // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
+    dryRun: false, // <boolean> invoke formatters without executing steps
+    failFast: false, // <boolean> abort the run on first failure
     format: ['pretty'], // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    colors: true,       // <boolean> disable colors in formatter output
-    snippets: true,     // <boolean> hide step definition snippets for pending steps
-    source: true,       // <boolean> hide source uris
-    profile: [],        // <string[]> (name) specify the profile to use
-    strict: false,      // <boolean> fail if there are any undefined or pending steps
-    tags: [],           // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-    timeout: 60000,     // <number> timeout for step definitions
+    colors: true, // <boolean> disable colors in formatter output
+    snippets: true, // <boolean> hide step definition snippets for pending steps
+    source: true, // <boolean> hide source uris
+    profile: [], // <string[]> (name) specify the profile to use
+    strict: false, // <boolean> fail if there are any undefined or pending steps
+    tags: [], // <string[]> (expression) only execute the features or scenarios with tags matching the expression
+    timeout: 60000, // <number> timeout for step definitions
     ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
   },
 
@@ -168,7 +173,7 @@ exports.config = {
   // onPrepare: function (config, capabilities) {
   // },
   /**
-   * Gets executed just before initialising the webdriver session and test framework. It allows you
+   * Gets executed just before initiating the webdriver session and test framework. It allows you
    * to manipulate configurations depending on the capability or spec.
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
@@ -213,9 +218,7 @@ exports.config = {
    * Runs after a Cucumber step
    * @param {Object} stepResult step result
    */
-  afterStep: function (uri, feature, scenario, step, result) {
-    console.log('.....................................................');
-    console.log(result.status);
+  afterStep: function afterStepCucumber(uri, feature, scenario, step, result) {
     if (result.status === 'failed') {
       const dir = this.screenshotPath;
       const fileName = path.join(dir, `${scenario.name.split(' ').join('_')}.png`);
@@ -280,6 +283,6 @@ exports.config = {
   * @param {String} oldSessionId session ID of the old session
   * @param {String} newSessionId session ID of the new session
   */
-  //onReload: function(oldSessionId, newSessionId) {
-  //}
-}
+  // onReload: function(oldSessionId, newSessionId) {
+  // }
+};

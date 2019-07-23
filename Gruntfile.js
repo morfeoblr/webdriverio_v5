@@ -11,7 +11,7 @@ module.exports = (grunt) => {
     eslintSuccessMessage: 'ESLint: 0 errors, 0 warnings',
     clean: {
       errorShots: ['errorShots'],
-      reports: ['allure-results'],
+      reports: ['allure-results', 'allure-report'],
     },
     eslint: {
       options: {
@@ -30,6 +30,9 @@ module.exports = (grunt) => {
       },
     },
     exec: {
+      createHtmlReport: {
+        command: '"node_modules/.bin/allure" generate ./allure-results -c && "node_modules/.bin/allure" open',
+      },
     },
   });
 
@@ -63,5 +66,9 @@ module.exports = (grunt) => {
     'eslint',
     'print-linting-success-message',
     'mochaTest',
+  ]);
+
+  grunt.registerTask('createHtmlReport', [
+    'exec:createHtmlReport',
   ]);
 };
