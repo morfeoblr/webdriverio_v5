@@ -16,6 +16,7 @@
     "@wdio/local-runner": "^5.11.5",
     "@wdio/spec-reporter": "^5.11.0",
     "@wdio/sync": "^5.11.0",
+    "chai": "^4.2.0",
     "chromedriver": "^75.1.0",
     "grunt": "^1.0.4",
     "grunt-continue": "^0.1.0",
