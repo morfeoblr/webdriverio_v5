@@ -20,7 +20,7 @@ class HomePage extends Page {
   get btnCultureSelector() { return $(selectors.btnCultureSelector); }
   get culture() { return $(selectors.culture); }
   get allHeaderTabs() { return $$(selectors.allHeaderTabs); }
-  get activeHeaderTab() { return $$(selectors.activeHeaderTab); }
+  get activeHeaderTab() { return $(selectors.activeHeaderTab); }
 
   tabByName(name) { return $(selectors.tabByName(name)); }
 

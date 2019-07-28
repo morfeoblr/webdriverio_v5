@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const chai = require('chai');
+const plainText = require('./test/helpers/plainText');
 
 const testFolderPath = path.join(__dirname, 'test');
 // const browserLogsPath = path.join(testFolderPath, 'logs', 'browser_logs.log');
@@ -76,7 +77,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'info',
+  // logLevel: 'info',
   screenshotPath: './errorShots/',
   //
   // Set specific log levels per logger
@@ -88,10 +89,10 @@ exports.config = {
   // - @wdio/sumologic-reporter
   // - @wdio/cli, @wdio/config, @wdio/sync, @wdio/utils
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  // logLevels: {
-  //     webdriver: 'info',
-  //     '@wdio/applitools-service': 'info'
-  // },
+  logLevels: {
+    webdriver: 'error',
+    '@wdio/local-runner': 'error',
+  },
   //
   // If you only want to run your tests until a specific amount of tests have failed use
   // bail (default is 0 - don't bail, run all tests).
@@ -195,7 +196,7 @@ exports.config = {
     browser.addCommand('getElementsText', (elements) => {
       const textArray = [];
       elements.forEach(element => {
-        textArray.push(element.getText());
+        textArray.push(plainText(element.getText()));
       });
       return textArray;
     });
